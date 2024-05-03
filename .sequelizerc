@@ -1,0 +1,17 @@
+const Path = require("path");
+
+module.exports = {
+
+    //Informa qual o arquivo de config que o sequelize deve utilizar para se conectar com o banco de dados.  
+    "config": Path.resolve(__dirname, "src", "database", "database.config.js"),
+
+    //Informa qual a pasta que irá conter os modelos do banco de dados.
+    "models-path": Path.resolve(__dirname, "src", "database", "models"),
+
+    //Informa qual a pasta que irá conter as migrations.
+    "migrations-path": Path.resolve(__dirname, "src", "database", "migrations"),
+
+    //Informa qual a pasta que irá conter os modelos do banco de dados.
+    //Neste App não teremos seeders.
+    "seeders-path": Path.resolve(__dirname, "src", "database", "seeders")
+}
