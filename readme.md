@@ -34,3 +34,16 @@ feito no comando acima.
 ```
 npx sequelize-cli db:migrate:undo
 ```
+
+# APIs
+
+## Professores
+### Criação
+```
+{
+    "nome": "Nome completo do professor,
+    "email": "email.do.professor@email.com",
+    "nascimento": "AAAAMMDD",
+    "telefone": "(00) 00000-0000"
+}
+```

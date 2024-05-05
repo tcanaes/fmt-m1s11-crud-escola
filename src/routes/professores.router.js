@@ -24,7 +24,10 @@ professoresRoute.get("/api/professores", async (req, res) => {
     const query = req.query;
     try {
         const professores = await Professores.findAll({ where: query });
-        res.send(professores);
+        if (professores)
+            res.send(professores);
+        else
+            res.status(404).send({ mensagem: `Nenhum professor encontrado.` });
 
     } catch (error) {
         res
@@ -37,7 +40,13 @@ professoresRoute.get("/api/professores", async (req, res) => {
 professoresRoute.get("/api/professores/:id", async (req, res) => {
     try {
         const professor = await Professores.findByPk(req.params.id);
-        res.send(professor);
+        if (professor)
+            res.send(professor);
+        else
+            res
+                .status(404) //Not Found
+                .send({ mensagem: `Professor ${req.params.id} não encontrado.` });
+
     } catch (error) {
         res
             .status(404) //Not Found
@@ -53,8 +62,10 @@ professoresRoute.patch("/api/professores/:id", async (req, res) => {
     if (req.body.nascimento)
         data.nascimento = utils.converteStrToData(req.body.nascimento);
 
-    const professor = {};
-    const alterar = {};
+
+
+    let professor = {};
+    let alterar = {};
 
     //Verifica se existe
     try {
@@ -64,6 +75,7 @@ professoresRoute.patch("/api/professores/:id", async (req, res) => {
             .status(404) //Not Found
             .send({ mensagem: `Professor ${req.params.id} não encontrado.` });
     }
+
 
     //Monta a estrutura dos campos que serão alterados
     for (campo in data) {
@@ -89,8 +101,8 @@ professoresRoute.put("/api/professores/:id", async (req, res) => {
     if (req.body.nascimento)
         data.nascimento = utils.converteStrToData(req.body.nascimento);
 
-    const professor = {};
-    const alterar = {};
+    let professor = {};
+    let alterar = {};
     //Verifica se existe
     try {
         professor = await Professores.findByPk(req.params.id);

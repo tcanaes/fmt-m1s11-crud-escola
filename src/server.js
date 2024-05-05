@@ -1,7 +1,6 @@
 const express = require('express') //Framework da aplicação
 const cors = require('cors')       //Biblioteca utilizada para inserir headers http
 const { connection } = require('./database/database.connections') // Configuração de acesso ao banco de dados
-//const cursosRoute = require('./routes/cursos.router');
 const professoresRoute = require('./routes/professores.router');
 
 const PORT_API = process.env.SRV_PORT
