@@ -47,3 +47,15 @@ npx sequelize-cli db:migrate:undo
     "telefone": "(00) 00000-0000"
 }
 ```
+
+## Cursos
+### Criação
+```
+{
+    "nome": "Estatistica Aplicada",
+    "nível": "Avançado",
+    "duracao": 200,
+    "professorId": 1,
+    "materiaId": 1
+}
+```    

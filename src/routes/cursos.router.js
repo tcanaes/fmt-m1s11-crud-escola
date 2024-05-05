@@ -5,13 +5,19 @@ const { Cursos } = require("../database/models");
 // CRIAR
 cursosRoute.post("/api/cursos", async (req, res) => {
     const data = req.body;
-    const curso = await Cursos.create(data);
-    if (professor) {
-        res.status(201); //Created
-        res.send(professor);
-    } else {
-        res.status(400); //Bad Request
-        res.send({ mensagem: `Informação inválida ou incompleta.` });
+    try {
+        const curso = await Cursos.create(data);
+        if (curso) {
+            res.status(201); //Created
+            res.send(curso);
+        } else {
+            res.status(400); //Bad Request
+            res.send({ mensagem: `Informação inválida ou incompleta.` });
+        }
+    } catch (error) {
+        res
+            .status(404)
+            .send(error);
     }
 });
 

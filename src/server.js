@@ -2,6 +2,8 @@ const express = require('express') //Framework da aplicação
 const cors = require('cors')       //Biblioteca utilizada para inserir headers http
 const { connection } = require('./database/database.connections') // Configuração de acesso ao banco de dados
 const professoresRoute = require('./routes/professores.router');
+const materiasRoute = require('./routes/materias.router');
+const cursosRoute = require('./routes/cursos.router');
 
 const PORT_API = process.env.SRV_PORT
 
@@ -12,6 +14,8 @@ class Server {
         this.database()  // Instância da função database
         // server.use(cursosRoute);
         server.use(professoresRoute);
+        server.use(materiasRoute);
+        server.use(cursosRoute);
         this.initializeServer(server) // Instância da função initializeServer
     }
 

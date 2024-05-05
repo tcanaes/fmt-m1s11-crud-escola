@@ -4,14 +4,19 @@ const { Materias } = require("../database/models");
 
 // CRIAR
 materiasRoute.post("/api/materias", async (req, res) => {
-
-    const materia = await Materias.create(req.body);
-    if (materia) {
-        res.status(201); //Created
-        res.send(materia);
-    } else {
-        res.status(400); //Bad Request
-        res.send({ mensagem: `Informação inválida ou incompleta.` });
+    try {
+        const materia = await Materias.create(req.body);
+        if (materia) {
+            res.status(201); //Created
+            res.send(materia);
+        } else {
+            res.status(400); //Bad Request
+            res.send({ mensagem: `Informação inválida ou incompleta.` });
+        }
+    } catch (error) {
+        res
+            .status(404)
+            .send(error);
     }
 });
 
@@ -21,7 +26,13 @@ materiasRoute.get("/api/materias", async (req, res) => {
     const query = req.query;
     try {
         const materias = await Materias.findAll({ where: query });
-        res.send(materias);
+        if (materias) {
+            res.status(200); //Created
+            res.send(materias);
+        } else {
+            res.status(400); //Bad Request
+            res.send({ mensagem: `Informação inválida ou incompleta.` });
+        }
 
     } catch (error) {
         res
@@ -34,7 +45,13 @@ materiasRoute.get("/api/materias", async (req, res) => {
 materiasRoute.get("/api/materias/:id", async (req, res) => {
     try {
         const materia = await Materias.findByPk(req.params.id);
-        res.send(materia);
+        if (materia) {
+            res.status(200);
+            res.send(materia);
+        } else {
+            res.status(400); //Bad Request
+            res.send({ mensagem: `Materia ${req.params.id} não encontrada.` });
+        }
     } catch (error) {
         res
             .status(404) //Not Found
@@ -46,9 +63,9 @@ materiasRoute.get("/api/materias/:id", async (req, res) => {
 // update parcial - patch
 materiasRoute.patch("/api/materias/:id", async (req, res) => {
 
-    const data = req.body;
-    const materia = {};
-    const alterar = {};
+    let data = req.body;
+    let materia = {};
+    let alterar = {};
 
     //Verifica se existe
     try {
@@ -58,6 +75,8 @@ materiasRoute.patch("/api/materias/:id", async (req, res) => {
             .status(404) //Not Found
             .send({ mensagem: `Materia ${req.params.id} não encontrada.` });
     }
+
+
 
     //Monta a estrutura dos campos que serão alterados
     for (campo in data) {
@@ -80,8 +99,8 @@ materiasRoute.patch("/api/materias/:id", async (req, res) => {
 materiasRoute.put("/api/materias/:id", async (req, res) => {
 
     const data = req.body;
-    const materia = {};
-    const alterar = {};
+    let materia = {};
+    let alterar = {};
     //Verifica se existe
     try {
         materia = await Materias.findByPk(req.params.id);
